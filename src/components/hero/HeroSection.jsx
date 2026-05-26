@@ -7,14 +7,15 @@ const TRENDING_TAGS = ["Product Designer", "AI Engineering", "Dev-ops Engineer"]
 
 export default function HeroSection() {
   return (
-    <section className="flex items-center justify-center px-4 sm:px-6 py-14 sm:py-16 md:py-20">
-      <div className="text-center w-full max-w-[680px]">
-
+    <section className=" relative flex items-center justify-center px-4 sm:px-6 py-14 sm:py-16 md:py-20">
+      <div className="absolute bg-black/60 w-full h-75 lg:h-50 top-0 z-2"></div>
+      <div className="text-center w-full max-w-[680px] z-5">
         {/* Badge */}
         <div className="inline-flex items-center gap-2 sm:gap-3 bg-[#111118] border border-white/10 rounded-full px-3 sm:px-5 py-2 sm:py-2.5 mb-6 sm:mb-8">
           <div className="w-5 sm:w-8 h-px bg-white/18 shrink-0" />
           <span className="font-mono text-[10px] sm:text-[11.5px] tracking-[1.5px] sm:tracking-[2px] text-white/65 whitespace-nowrap">
-            💼 <span className="text-white font-bold">50,000+</span> NEW JOBS THIS MONTH
+            💼 <span className="text-white font-bold">50,000+</span> NEW JOBS
+            THIS MONTH
           </span>
           <div className="w-5 sm:w-8 h-px bg-white/18 shrink-0" />
         </div>
@@ -26,13 +27,12 @@ export default function HeroSection() {
 
         {/* Subtitle */}
         <p className="text-[14px] sm:text-[15px] text-white/48 leading-[1.75] max-w-[340px] sm:max-w-[440px] md:max-w-[510px] mx-auto mb-8 sm:mb-10">
-          HireLoop connects top talent with world-class companies. Browse thousands of
-          curated opportunities and land your next role — faster.
+          HireLoop connects top talent with world-class companies. Browse
+          thousands of curated opportunities and land your next role — faster.
         </p>
 
         {/* Search Bar — stacked on mobile, inline on sm+ */}
         <div className="max-w-[600px] mx-auto mb-5">
-
           {/* Mobile: stacked inputs */}
           <div className="flex flex-col gap-2 sm:hidden">
             <div className="flex items-center bg-[#181824] border border-white/11 rounded-full pl-4 pr-4 py-3">
@@ -102,7 +102,6 @@ export default function HeroSection() {
             </button>
           ))}
         </div>
-
       </div>
     </section>
   );
