@@ -26,11 +26,14 @@ export default function SignInPage() {
     try {
       setLoading(true);
       const { error } = await authClient.signIn.email({
-        email:    data.email,
+        email: data.email,
         password: data.password,
       });
-      if (error) { setServerError(error.message || "Invalid email or password."); return; }
-      router.push("/dashboard");
+      if (error) {
+        setServerError(error.message || "Invalid email or password.");
+        return;
+      }
+      router.push("/signin");
     } catch (err) {
       setServerError(err.message || "Something went wrong.");
     } finally {
@@ -42,7 +45,7 @@ export default function SignInPage() {
     setServerError("");
     try {
       setGoogleLoading(true);
-      await authClient.signIn.social({ provider: "google", callbackURL: "/dashboard" });
+      await authClient.signIn.social({ provider: "google", callbackURL: "/" });
     } catch (err) {
       setServerError(err.message || "Google sign in failed.");
       setGoogleLoading(false);
@@ -53,7 +56,7 @@ export default function SignInPage() {
     setServerError("");
     try {
       setGithubLoading(true);
-      await authClient.signIn.social({ provider: "github", callbackURL: "/dashboard" });
+      await authClient.signIn.social({ provider: "github", callbackURL: "/" });
     } catch (err) {
       setServerError(err.message || "GitHub sign in failed.");
       setGithubLoading(false);
