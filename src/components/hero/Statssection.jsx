@@ -117,16 +117,7 @@ export default function StatsSection() {
       ref={ref}
       className="relative w-full min-h-[520px] flex flex-col items-center justify-center overflow-hidden py-20 px-4"
     >
-      {/* ── Background Image ──────────────────────────────────────────────────
-          তোমার globe image বসাতে নিচের style এ path দাও:
-          backgroundImage: "url('/images/globe-bg.png')"
-          এখন placeholder হিসেবে purple radial gradient আছে।
-      ─────────────────────────────────────────────────────────────────────── */}
-      <div
-        className="absolute inset-0 z-0"
-      
-      >
-      
+      <div className="absolute inset-0 z-0">
         {/* Star dots effect */}
         <div
           className="absolute inset-0 opacity-40"

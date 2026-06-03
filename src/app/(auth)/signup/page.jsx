@@ -71,8 +71,9 @@ export default function SignUpPage() {
 
   // ── Submit ──────────────────────────────────────────────────────────────────
   const onSubmit = async (data) => {
+    const { name, email, password } = data;
     setServerError("");
-
+    console.log(data.name);
     try {
       setLoading(true);
 
@@ -86,9 +87,9 @@ export default function SignUpPage() {
 
       // 2. Sign up with better-auth
       const { error } = await authClient.signUp.email({
-        name: data.name,
-        email: data.email,
-        password: data.password,
+        name,
+        email,
+        password,
         image: imageUrl || undefined,
       });
 

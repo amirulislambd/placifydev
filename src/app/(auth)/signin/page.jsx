@@ -33,7 +33,7 @@ export default function SignInPage() {
         setServerError(error.message || "Invalid email or password.");
         return;
       }
-      router.push("/signin");
+      router.push("/");
     } catch (err) {
       setServerError(err.message || "Something went wrong.");
     } finally {

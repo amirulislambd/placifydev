@@ -6,24 +6,22 @@ const client = new MongoClient(process.env.MONGO_DB_URI);
 const db = client.db(process.env.AUTH_BD_NAME);
 
 export const auth = betterAuth({
-
-    emailAndPassword: { 
-        enabled: true, 
-      },
-      socialProviders: {
-        google: { 
-            clientId: process.env.GOOGLE_CLIENT_ID , 
-            clientSecret: process.env.GOOGLE_CLIENT_SECRET, 
-        }, 
-
-        github: { 
-          clientId: process.env.GITHUB_CLIENT_ID, 
-          clientSecret: process.env.GITHUB_CLIENT_SECRET, 
-      },
+  emailAndPassword: {
+    enabled: true,
+  },
+  socialProviders: {
+    google: {
+      clientId: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     },
 
+    github: {
+      clientId: process.env.GITHUB_CLIENT_ID,
+      clientSecret: process.env.GITHUB_CLIENT_SECRET,
+    },
+  },
+
   database: mongodbAdapter(db, {
-    // Optional: if you don't provide a client, database transactions won't be enabled.
-    client
+    client,
   }),
 });

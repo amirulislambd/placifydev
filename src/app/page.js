@@ -8,7 +8,7 @@ export default function Home() {
         className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat "
         style={{ backgroundImage: "url('/images/globe.png')" }}
       />
-      <div className="relative z-10">
+      <div className="relative z-0">
         <HeroSection />
         <StatsSection />
       </div>
