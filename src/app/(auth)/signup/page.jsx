@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
@@ -18,6 +18,7 @@ import { HiOutlinePlay } from "react-icons/hi2";
 import { FcGoogle } from "react-icons/fc";
 import { Spinner } from "@heroui/react";
 import { FaGithub } from "react-icons/fa";
+import { Description, Label, Radio, RadioGroup } from "@heroui/react";
 
 // ─── ImgBB upload ─────────────────────────────────────────────────────────────
 async function ResponseImgBb(file) {
@@ -52,8 +53,11 @@ export default function SignUpPage() {
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    defaultValues: { role: "seeker" },
+  });
 
   // ── Photo handlers ──────────────────────────────────────────────────────────
   const handlePhoto = (e) => {
@@ -71,7 +75,7 @@ export default function SignUpPage() {
 
   // ── Submit ──────────────────────────────────────────────────────────────────
   const onSubmit = async (data) => {
-    const { name, email, password } = data;
+    const { name, email, role, password } = data;
     setServerError("");
     console.log(data.name);
     try {
@@ -89,6 +93,7 @@ export default function SignUpPage() {
       const { error } = await authClient.signUp.email({
         name,
         email,
+        role,
         password,
         image: imageUrl || undefined,
       });
@@ -301,6 +306,39 @@ export default function SignUpPage() {
               </div>
             )}
           </div>
+
+          {/* Role section */}
+
+          <Controller
+            name="role"
+            control={control}
+            render={({ field }) => (
+              <div className="flex flex-col gap-3">
+                <label className="block text-[13px] text-white/55">
+                  Please select a role
+                </label>
+                <div className="flex gap-4">
+                  {["seeker", "recruiter"].map((role) => (
+                    <label
+                      key={role}
+                      className="flex items-center gap-2 cursor-pointer"
+                    >
+                      <input
+                        type="radio"
+                        value={role}
+                        checked={field.value === role}
+                        onChange={() => field.onChange(role)}
+                        className="accent-violet-600 w-4 h-4 cursor-pointer"
+                      />
+                      <span className="text-[14px] text-white/80 capitalize">
+                        {role === "seeker" ? "Job Seeker" : "Recruiter"}
+                      </span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+            )}
+          />
 
           {/* Password */}
           <div>
