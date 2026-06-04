@@ -99,7 +99,7 @@ export default function PostJobPage() {
         toast.success("Job posted successfully!");
         setIsLoading(false); 
         e.target.reset();
-        router.push('/dashboard/recruiter')
+        router.push("/dashboard/recruiter/jobs");
       }
     } catch (error) {
       console.error(error);
