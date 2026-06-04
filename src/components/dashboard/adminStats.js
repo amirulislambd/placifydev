@@ -1,8 +1,10 @@
-// adminStats.js — Admin stats config
-
 import {
-  FiUsers, FiBriefcase, FiFileText,
-  FiShield, FiAlertCircle, FiDollarSign,
+  FiUsers,
+  FiBriefcase,
+  FiFileText,
+  FiShield,
+  FiAlertCircle,
+  FiDollarSign,
 } from "react-icons/fi";
 import CardIcon from "./CardIcon";
 
