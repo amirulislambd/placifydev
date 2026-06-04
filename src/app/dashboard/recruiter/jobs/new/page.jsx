@@ -11,17 +11,13 @@ import {
   Select,
   Label,
   ListBox,
+  toast,
 } from "@heroui/react";
 
 // Gravity UI Icons to match style requirements
-import {
-  Suitcase,
-  Coins,
-  Calendar,
-  LayoutHeaderCellsLarge,
-  MapPin,
-  Xmark,
-} from "@gravity-ui/icons";
+import { LayoutHeaderCellsLarge, Xmark } from "@gravity-ui/icons";
+import { createJob } from "@/lib/action/jobs";
+import { useRouter } from "next/navigation";
 
 export default function PostJobPage() {
   const mockCompany = {
@@ -34,7 +30,7 @@ export default function PostJobPage() {
   const [isRemote, setIsRemote] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState({});
-
+  const router = useRouter()
   const jobCategories = [
     { label: "Technology", value: "technology" },
     { label: "Design", value: "design" },
@@ -49,7 +45,6 @@ export default function PostJobPage() {
     { label: "Internship", value: "internship" },
   ];
 
-  // Added mock locations for the selection field
   const locations = [
     { label: "New York, USA", value: "new-york" },
     { label: "London, UK", value: "london" },
@@ -66,7 +61,7 @@ export default function PostJobPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsLoading(true);
+    setIsLoading(true); 
     setErrors({});
 
     const formData = new FormData(e.currentTarget);
@@ -86,7 +81,7 @@ export default function PostJobPage() {
 
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
-      setIsLoading(false);
+      setIsLoading(false); 
       return;
     }
 
@@ -95,14 +90,22 @@ export default function PostJobPage() {
       workMode: isRemote ? "remote" : "on-site",
       companyId: mockCompany.id,
       status: "active",
+      isPubliclyVisible: true,
     };
 
     try {
-      console.log("Saving job configuration...", finalPayload);
+      const res = await createJob(finalPayload);
+      if (res.insertedId) {
+        toast.success("Job posted successfully!");
+        setIsLoading(false); 
+        e.target.reset();
+        router.push('/dashboard/recruiter')
+      }
     } catch (error) {
       console.error(error);
+      setIsLoading(false); 
     } finally {
-      setIsLoading(false);
+      setIsLoading(false); 
     }
   };
 
@@ -443,7 +446,7 @@ export default function PostJobPage() {
             </Button>
             <Button
               type="submit"
-              isLoading={isLoading}
+              isLoading={isLoading} 
               className="bg-white text-black hover:bg-zinc-200 font-semibold rounded-md px-6 h-11"
             >
               Post Active Job
