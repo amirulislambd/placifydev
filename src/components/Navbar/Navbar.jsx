@@ -7,7 +7,7 @@ export default function Navbar() {
       <header className="w-full bg-[#1a1a2e] relative">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_#2a2a45_0%,_#1a1a2e_70%)] pointer-events-none" />
 
-        <nav className="relative max-w-screen-xl mx-auto flex items-center justify-between px-6 md:px-10 h-[70px]">
+        <nav className="relative container mx-auto flex items-center justify-between px-6  h-[70px]">
           {/* Logo — static, server-rendered */}
           <Link href="/" className="flex items-center gap-3 shrink-0">
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-violet-500 to-purple-700 flex items-center justify-center">

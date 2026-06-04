@@ -45,12 +45,10 @@ const SOCIAL_LINKS = [
 
 export default function Footer() {
   return (
-    <footer className="bg-[#0d0d14] text-white px-6 md:px-16 pt-16 pb-10">
-      <div className="max-w-screen-xl mx-auto">
-
+    <footer className="bg-[#0d0d14] text-white px-6  pt-16 pb-10 container mx-auto">
+      <div>
         {/* Top */}
         <div className="flex flex-col md:flex-row gap-12 md:gap-0 justify-between mb-16">
-
           {/* Left — Logo + tagline */}
           <div className="max-w-[280px]">
             <Link href="/" className="flex items-center gap-3 mb-5">
@@ -62,12 +60,15 @@ export default function Footer() {
                 </svg>
               </div>
               <div className="flex flex-col leading-tight">
-                <span className="text-[15px] font-bold text-white">Programming</span>
+                <span className="text-[15px] font-bold text-white">
+                  Programming
+                </span>
                 <span className="text-[13px] text-white/70">Hero</span>
               </div>
             </Link>
             <p className="text-[14px] text-white/50 leading-relaxed">
-              The AI-native career platform. Built for people who take their work seriously.
+              The AI-native career platform. Built for people who take their
+              work seriously.
             </p>
           </div>
 
@@ -97,7 +98,6 @@ export default function Footer() {
 
         {/* Bottom */}
         <div className="border-t border-white/10 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-
           {/* Social icons */}
           <div className="flex items-center gap-3">
             {SOCIAL_LINKS.map((s) => (
@@ -118,17 +118,22 @@ export default function Footer() {
           <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-6 text-[13px] text-white/35">
             <span>Copyright 2026 — Placify Dev</span>
             <div className="flex items-center gap-2">
-              <Link href="/terms" className="hover:text-white transition-colors duration-200">
+              <Link
+                href="/terms"
+                className="hover:text-white transition-colors duration-200"
+              >
                 Terms & Policy
               </Link>
               <span>-</span>
-              <Link href="/privacy" className="hover:text-white transition-colors duration-200">
+              <Link
+                href="/privacy"
+                className="hover:text-white transition-colors duration-200"
+              >
                 Privacy Guideline
               </Link>
             </div>
           </div>
         </div>
-
       </div>
     </footer>
   );
