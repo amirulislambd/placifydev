@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react"; // 👈 ড্রয়ার ওপেন/ক্লোজ স্টেট হ্যান্ডেল করার জন্য useState আনা হয়েছে
+import React, { useState } from "react";
 import {
   LayoutSideContentLeft,
   Bell,
@@ -17,27 +17,26 @@ import { usePathname } from "next/navigation";
 
 const Sidebar = () => {
   const pathname = usePathname();
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false); // 👈 ড্রয়ারের ওপেন স্টেট
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   const navItems = [
     { icon: House, href: "/dashboard/recruiter", label: "Home" },
+    { icon: Bell, href: "/dashboard/recruiter/jobs", label: "Jobs" },
     {
       icon: Magnifier,
       href: "/dashboard/recruiter/jobs/new",
-      label: "Add A Jobs",
+      label: "Post A Job",
     },
-    { icon: Bell, href: "/dashboard/recruiter/jobs", label: "Recruiter Jobs" },
     {
       icon: Briefcase,
       href: "/dashboard/recruiter/company",
-      label: "Recruiter Company",
+      label: "Company Profile",
     },
     { icon: Envelope, href: "#", label: "Messages" },
     { icon: Person, href: "#", label: "Profile" },
     { icon: Gear, href: "#", label: "Settings" },
   ];
 
-  // 💡 লিংকে ক্লিক করলে যেন সাইডবার বন্ধ হয়, তাই এই ফাংশন
   const handleLinkClick = () => {
     setIsDrawerOpen(false);
   };
@@ -51,7 +50,7 @@ const Sidebar = () => {
           <Link
             href={item.href}
             key={item.label}
-            onClick={handleLinkClick} // 👈 এই ক্লিক ইভেন্টটি মোবাইলে সাইডবার ক্লোজ করে দেবে
+            onClick={handleLinkClick}
             className={`flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition-colors ${
               isActive
                 ? "bg-zinc-800 text-white font-medium"
@@ -70,18 +69,16 @@ const Sidebar = () => {
 
   return (
     <>
-      {/* 💻 ডেক্সটপ সাইডবার */}
+      {/* Desktop sidebar */}
       <aside className="hidden w-64 shrink-0 border-r border-zinc-800 p-4 lg:block bg-[#121212]">
         {navContainer}
       </aside>
-
-      {/* 📱 মোবাইল ড্রয়ার/সাইডবার */}
-      {/* 💡 এখানে isOpen এবং onOpenChange প্রোপার্টি দিয়ে ড্রয়ার কন্ট্রোল করা হচ্ছে */}
+      {/* mobile sidebar */}
       <Drawer isOpen={isDrawerOpen} onOpenChange={setIsDrawerOpen}>
         <Button
           className={"lg:hidden"}
           variant="secondary"
-          onClick={() => setIsDrawerOpen(true)} // 👈 বাটনে ক্লিক করলে ড্রয়ার ওপেন হবে
+          onClick={() => setIsDrawerOpen(true)}
         >
           <LayoutSideContentLeft />
           <h1 className="hidden md:block">Sidebar</h1>
