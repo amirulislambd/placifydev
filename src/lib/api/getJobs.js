@@ -1,5 +1,12 @@
+import { serverFetch } from "../core/serverMutation";
+
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
-export const getJobs = async (companyId) => {
+
+export const getJobs = async () => {
+  return await serverFetch("jobs");
+};
+
+export const getCompanyJobs = async (companyId) => {
   const res = await fetch(`${baseUrl}/api/jobs?companyId=${companyId}`, {
     cache: "no-store",
   });

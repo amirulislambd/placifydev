@@ -1,9 +1,9 @@
 import React from "react";
 import { Chip, Table, Button } from "@heroui/react";
 import { Eye, Pencil, TrashBin } from "@gravity-ui/icons";
-import { getJobs } from "@/lib/api/getJobs";
 import { getLoggedInRecruiterCompany } from "@/lib/api/companies";
 import { getSessionUser } from "@/lib/core/session";
+import { getCompanyJobs } from "@/lib/api/getJobs";
 
 // ─── Safe date format (avoids hydration mismatch) ─────────────────────────────
 function formatDeadline(deadline) {
@@ -20,7 +20,7 @@ const RecruiterJobs = async () => {
   const company = await getLoggedInRecruiterCompany();
   const user = await getSessionUser();
   console.log("company", company);
-  const jobs = await getJobs(company._id);
+  const jobs = await getCompanyJobs(company._id);
 
   return (
     <div className="p-4 md:p-6 bg-[#121212] min-h-screen text-zinc-100">

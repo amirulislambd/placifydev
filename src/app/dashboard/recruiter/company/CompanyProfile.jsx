@@ -234,7 +234,7 @@ function CompanyForm({ defaultValues, onSubmit, loading, onCancel }) {
               <Select
                 className={customSelectCls}
                 placeholder="Select range"
-                // ⚡ ফিক্সড: selectedKeys এবং সেট স্টেট ব্যালেন্সিং
+                
                 selectedKeys={field.value ? new Set([field.value]) : new Set()}
                 onSelectionChange={(keys) => {
                   const selectedValue = Array.from(keys)[0];
@@ -404,7 +404,7 @@ const CompanyProfile = ({ recruiter, recruiterCompany }) => {
         cleanUrl = `https://${cleanUrl}`;
       }
 
-      // ⚡ ফিক্সড: ডাটাবেজের কি-নেম 'name' এবং ফর্ম ইনপুট 'companyName' দুইটাই পাঠানো হলো সুরক্ষার জন্য
+     
       const payload = {
         name: data.companyName,
         companyName: data.companyName,
