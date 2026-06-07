@@ -13,13 +13,15 @@ const job = await getJobById(id);
     redirect(`/signin?redirect=/jobs/${id}/apply`);
   }
   if (user.role !== "seeker") {
-    <div className="h-screen">
-      <h1 className="text-5xl">this page is only for seekers</h1>
-    </div>;
+    return (
+      <div className="h-screen">
+        <h1 className="text-5xl">this page is only for seekers</h1>
+      </div>
+    );
   }
   return (
     <div>
-      <ApplyJob job={job} />
+      <ApplyJob job={job} appliedUser={user} />
     </div>
   );
 };
