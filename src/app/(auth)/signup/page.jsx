@@ -3,7 +3,7 @@
 import { useState, useRef } from "react";
 import { Controller, useForm } from "react-hook-form";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
 import {
   FiUser,
@@ -47,6 +47,9 @@ export default function SignUpPage() {
   const [serverError, setServerError] = useState("");
   const [googleLoading, setGoogleLoading] = useState(false);
   const [githubLoading, setGithubLoading] = useState(false);
+
+  const searchParams = useSearchParams();
+  const redirectTo = searchParams.get("redirect") || "/";
 
   const fileRef = useRef(null);
 
@@ -105,7 +108,7 @@ export default function SignUpPage() {
 
       // 3. Redirect
       await authClient.signOut();
-      router.push("/signin");
+      router.push(redirectTo);
     } catch (err) {
       setServerError(err.message || "Something went wrong.");
     } finally {
@@ -153,7 +156,7 @@ export default function SignUpPage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#0d0d14] px-4 py-12">
-      <div className="w-full max-w-[420px] bg-[#12121e] border border-white/8 rounded-2xl p-8">
+      <div className="w-full max-w-[500px] bg-[#12121e] border border-white/8 rounded-2xl p-8">
         {/* Logo */}
         <div className="flex items-center gap-2.5 mb-6">
           <div className="w-9 h-9 rounded-xl bg-violet-600 flex items-center justify-center shrink-0">
@@ -466,7 +469,7 @@ export default function SignUpPage() {
         <p className="text-center text-[13px] text-white/40">
           Already have an account?{" "}
           <Link
-            href="/signin"
+            href={`/signin?redirect=${redirectTo}`}
             className="text-violet-400 font-medium hover:text-violet-300 transition-colors"
           >
             Sign in

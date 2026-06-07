@@ -5,12 +5,12 @@ import {
   BsGeoAlt,
   BsCurrencyDollar,
   BsCalendar3,
-  BsPeopleFill,
   BsCheckCircle,
   BsArrowLeft,
   BsClock,
 } from "react-icons/bs";
 import { HiOutlineOfficeBuilding } from "react-icons/hi";
+import { Button } from "@heroui/react";
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
@@ -108,6 +108,7 @@ function BulletList({ text }) {
 const JobDetailsPage = async ({ params }) => {
   const param = await params;
   const id = param.id;
+  console.log("id:", id);
   const job = await getJobById(id);
 
   if (!job) {
@@ -193,12 +194,20 @@ const JobDetailsPage = async ({ params }) => {
 
           {/* Apply CTA */}
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 border-t border-white/6 pt-5">
-            <button className="flex-1 sm:flex-none bg-violet-600 hover:bg-violet-700 active:scale-[0.98] text-white font-semibold text-[15px] px-8 py-3 rounded-xl transition-all duration-200 flex items-center justify-center gap-2">
-              Apply Now
-            </button>
-            <button className="flex-1 sm:flex-none bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 text-white/70 hover:text-white text-[14px] px-6 py-3 rounded-xl transition-all duration-200">
+            <Link href={`/jobs/${job._id}/apply`}>
+              <Button
+                size="lg"
+                className="w-full bg-violet-600 hover:bg-violet-700 active:scale-[0.98] text-white font-semibold text-[14px] py-2.5 rounded-xl transition-all duration-200 cursor-pointer"
+              >
+                Apply for this job
+              </Button>
+            </Link>
+            <Button
+              size="lg"
+              className="flex-1 sm:flex-none bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 text-white/70 hover:text-white text-[14px] px-6 py-3 rounded-xl transition-all duration-200 cursor-pointer"
+            >
               Save Job
-            </button>
+            </Button>
             <p className="text-[12px] text-white/25 sm:ml-auto self-center text-center sm:text-right">
               Posted {formatDate(job.createdAt?.$date || job.createdAt)}
             </p>
@@ -292,9 +301,11 @@ const JobDetailsPage = async ({ params }) => {
                 </span>
                 .
               </p>
-              <button className="w-full bg-violet-600 hover:bg-violet-700 active:scale-[0.98] text-white font-semibold text-[14px] py-2.5 rounded-xl transition-all duration-200">
-                Apply Now
-              </button>
+              <Link href={`/jobs/${job._id}/apply`}>
+                <button className="w-full bg-violet-600 hover:bg-violet-700 active:scale-[0.98] text-white font-semibold text-[14px] py-2.5 rounded-xl transition-all duration-200 cursor-pointer">
+                  Apply for this job
+                </button>
+              </Link>
             </div>
           </div>
         </div>
