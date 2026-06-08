@@ -5,7 +5,6 @@ import React from "react";
 import ApplyJob from "./ApplyJob";
 import NotForSeekers from "./Notforseekers ";
 import { getApplicationsByaApplicant } from "@/lib/api/application";
-import ApplyPageWrapper from "./Applypagewrapper";
 import { BsLightningCharge } from "react-icons/bs";
 import Link from "next/link";
 
@@ -23,12 +22,11 @@ const ApplyPage = async ({ params }) => {
   }
 
   const applications = await getApplicationsByaApplicant(user.id);
-
   const used = applications.length;
   const limit = 3;
 
-  return (
-    <div>
+  if (used >= limit) {
+    return (
       <div className="min-h-screen bg-[#0d0d14] flex items-center justify-center px-4">
         <div className="flex flex-col items-center text-center gap-6 max-w-sm">
           <div className="w-16 h-16 rounded-2xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center">
@@ -60,7 +58,12 @@ const ApplyPage = async ({ params }) => {
           </div>
         </div>
       </div>
-      {used.length <= limit && <ApplyJob job={job} applicant={user} />}
+    );
+  }
+
+  return (
+    <div>
+      <ApplyJob job={job} applicant={user} />
     </div>
   );
 };
