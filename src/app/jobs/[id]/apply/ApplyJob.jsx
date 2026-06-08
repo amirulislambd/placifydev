@@ -107,7 +107,7 @@ function Input({ icon, ...props }) {
 
 const STEPS = ["Personal Info", "Resume & Letter", "Review"];
 
-export default function ApplyJob({ job, appliedUser }) {
+export default function ApplyJob({ job, applicant }) {
   const [step, setStep] = useState(0);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -131,7 +131,7 @@ export default function ApplyJob({ job, appliedUser }) {
       const res = await submitApplication({
         companyName: job.companyName,
         jobId: job._id,
-        userId: appliedUser.id,
+        applicantId: applicant.id,
         phone,
         location,
         linkedin,
@@ -252,10 +252,10 @@ export default function ApplyJob({ job, appliedUser }) {
             </div>
 
             <div className="flex items-center gap-3 bg-white/[0.03] border border-white/6 rounded-xl p-3">
-              {appliedUser.image ? (
+              {applicant.image ? (
                 <img
-                  src={appliedUser.image}
-                  alt={appliedUser.name}
+                  src={applicant.image}
+                  alt={applicant.name}
                   className="w-9 h-9 rounded-full object-cover border border-white/10 shrink-0"
                 />
               ) : (
@@ -265,9 +265,9 @@ export default function ApplyJob({ job, appliedUser }) {
               )}
               <div>
                 <p className="text-[13px] font-medium text-white">
-                  {appliedUser.name}
+                  {applicant.name}
                 </p>
-                <p className="text-[12px] text-white/35">{appliedUser.email}</p>
+                <p className="text-[12px] text-white/35">{applicant.email}</p>
               </div>
             </div>
 
@@ -464,8 +464,8 @@ export default function ApplyJob({ job, appliedUser }) {
                 title: "Personal Info",
                 step: 0,
                 rows: [
-                  ["Name", appliedUser.name],
-                  ["Email", appliedUser.email],
+                  ["Name", applicant.name],
+                  ["Email", applicant.email],
                   ["Phone", phone],
                   ["Location", location],
                   ["Experience", experience],
