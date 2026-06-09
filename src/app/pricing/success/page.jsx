@@ -1,34 +1,43 @@
-import { stripe } from '@/lib/stripe'
-import { redirect } from 'next/navigation'
-import Link from 'next/link'
-import { BsCheckCircleFill, BsEnvelope, BsArrowRight } from 'react-icons/bs'
-import { HiSparkles } from 'react-icons/hi2'
+import { stripe } from "@/lib/stripe";
+import { redirect } from "next/navigation";
+import Link from "next/link";
+import { BsCheckCircleFill, BsEnvelope, BsArrowRight } from "react-icons/bs";
+import { HiSparkles } from "react-icons/hi2";
+import { createSubscription } from "@/lib/action/subscriptions";
 
 export default async function Success({ searchParams }) {
-  const { session_id } = await searchParams
+  const { session_id } = await searchParams;
 
   if (!session_id)
-    throw new Error('Please provide a valid session_id (`cs_test_...`)')
+    throw new Error("Please provide a valid session_id (`cs_test_...`)");
 
   const {
     status,
     customer_details: { email: customerEmail },
     line_items,
+    metadata,
   } = await stripe.checkout.sessions.retrieve(session_id, {
-    expand: ['line_items', 'payment_intent'],
-  })
+    expand: ["line_items", "payment_intent"],
+  });
 
-  if (status === 'open') {
-    return redirect('/pricing')
+  if (status === "open") {
+    return redirect("/pricing");
   }
 
-  if (status === 'complete') {
-    const planName = line_items?.data?.[0]?.description || 'Pro'
+  if (status === "complete") {
+    const subsInfo = {
+      email: customerEmail,
+      planId: metadata.planId,
+    };
+    // update user plan
+
+    const result = await createSubscription(subsInfo);
+
+    const planName = line_items?.data?.[0]?.description || "Pro";
 
     return (
       <div className="min-h-screen bg-[#0d0d14] flex items-center justify-center px-4">
         <div className="w-full max-w-md flex flex-col items-center gap-8">
-
           {/* Glow */}
           <div className="relative">
             <div className="absolute inset-0 rounded-full bg-emerald-500/20 blur-2xl scale-150" />
@@ -49,8 +58,10 @@ export default async function Success({ searchParams }) {
               Welcome to {planName}!
             </h1>
             <p className="text-[14px] text-white/45 leading-relaxed">
-              Your subscription is now active. A confirmation email has been sent to{' '}
-              <span className="text-white/70 font-medium">{customerEmail}</span>.
+              Your subscription is now active. A confirmation email has been
+              sent to{" "}
+              <span className="text-white/70 font-medium">{customerEmail}</span>
+              .
             </p>
           </div>
 
@@ -61,14 +72,21 @@ export default async function Success({ searchParams }) {
                 <BsEnvelope className="text-violet-400 text-[15px]" />
               </div>
               <div>
-                <p className="text-[13px] font-medium text-white">Check your inbox</p>
-                <p className="text-[12px] text-white/35">Receipt sent to {customerEmail}</p>
+                <p className="text-[13px] font-medium text-white">
+                  Check your inbox
+                </p>
+                <p className="text-[12px] text-white/35">
+                  Receipt sent to {customerEmail}
+                </p>
               </div>
             </div>
             <div className="h-px bg-white/6" />
             <p className="text-[12px] text-white/30 leading-relaxed">
-              Questions? Email us at{' '}
-              <a href="mailto:support@placifydev.com" className="text-violet-400 hover:text-violet-300 transition-colors">
+              Questions? Email us at{" "}
+              <a
+                href="mailto:support@placifydev.com"
+                className="text-violet-400 hover:text-violet-300 transition-colors"
+              >
                 support@placifydev.com
               </a>
             </p>
@@ -89,9 +107,8 @@ export default async function Success({ searchParams }) {
               Go to Dashboard <BsArrowRight />
             </Link>
           </div>
-
         </div>
       </div>
-    )
+    );
   }
 }

@@ -6,7 +6,6 @@ import JobsFilter from "@/components/jobs/Jobsfilter";
 
 function filterJobs(jobs, { q, category, jobType, workMode, salary }) {
   return jobs.filter((job) => {
-
     // ── Search query ───────────────────────────────────────────────────────
     if (q) {
       const query = q.toLowerCase();
@@ -28,12 +27,10 @@ function filterJobs(jobs, { q, category, jobType, workMode, salary }) {
       if (job.jobType?.toLowerCase() !== jobType.toLowerCase()) return false;
     }
 
-    // ── Work Mode — DB তে "remote" lowercase তাই normalize করছি ──────────
     if (workMode && workMode !== "All") {
       if (job.workMode?.toLowerCase() !== workMode.toLowerCase()) return false;
     }
 
-    // ── Salary — DB তে string তাই Number() দিয়ে parse করছি ───────────────
     if (salary) {
       const [min, max] = salary.split("-").map(Number);
       const jobMin = Number(job.minSalary) || 0;

@@ -27,7 +27,8 @@ export const auth = betterAuth({
 
   user: {
     additionalFields: {
-      role: "seeker",
+      role: { default: "seeker" },
+      plan: { default: "seeker_free" },
     },
   },
 });

@@ -18,7 +18,6 @@ import { HiOutlinePlay } from "react-icons/hi2";
 import { FcGoogle } from "react-icons/fc";
 import { Spinner } from "@heroui/react";
 import { FaGithub } from "react-icons/fa";
-import { Description, Label, Radio, RadioGroup } from "@heroui/react";
 
 // ─── ImgBB upload ─────────────────────────────────────────────────────────────
 async function ResponseImgBb(file) {
@@ -80,6 +79,7 @@ export default function SignUpPage() {
   const onSubmit = async (data) => {
     const { name, email, role, password } = data;
     setServerError("");
+    const plan = role === "seeker" ? "seeker_free" : "recruiter_free";
     console.log(data.name);
     try {
       setLoading(true);
@@ -96,9 +96,10 @@ export default function SignUpPage() {
       const { error } = await authClient.signUp.email({
         name,
         email,
-        role,
         password,
         image: imageUrl || undefined,
+        plan,
+        role,
       });
 
       if (error) {
@@ -107,7 +108,6 @@ export default function SignUpPage() {
       }
 
       // 3. Redirect
-      await authClient.signOut();
       router.push(redirectTo);
     } catch (err) {
       setServerError(err.message || "Something went wrong.");
