@@ -2,23 +2,49 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { FiBriefcase, FiHome, FiDollarSign, FiMenu, FiX, FiUser } from "react-icons/fi";
+import {
+  FiBriefcase,
+  FiHome,
+  FiDollarSign,
+  FiMenu,
+  FiX,
+  FiUser,
+} from "react-icons/fi";
 import NavActions from "./Navactions";
+import { useSession } from "@/lib/auth-client";
+import { RxDashboard } from "react-icons/rx";
 
-
-const NAV_LINKS = [
-  { label: "Browse Jobs", href: "/jobs",    icon: <FiBriefcase /> },
-  { label: "Company",     href: "/company", icon: <FiHome /> },
-  { label: "Pricing",     href: "/pricing", icon: <FiDollarSign /> },
+const BASE_NAV_LINKS = [
+  { label: "Browse Jobs", href: "/jobs", icon: <FiBriefcase /> },
+  { label: "Company", href: "/company", icon: <FiHome /> },
+  { label: "Pricing", href: "/pricing", icon: <FiDollarSign /> },
 ];
 
+const DASHBOARD_LINKS = {
+  seeker: "/dashboard/seeker",
+  recruiter: "/dashboard/recruiter",
+};
+
 export default function NavLinks() {
+  const { data: session } = useSession();
+  const user = session?.user;
   const [drawerOpen, setDrawerOpen] = useState(false);
   const closeDrawer = () => setDrawerOpen(false);
 
+  const NAV_LINKS = user?.email
+    ? [
+        ...BASE_NAV_LINKS,
+        {
+          label: "Dashboard",
+          href: DASHBOARD_LINKS[user.role] || "/dashboard",
+          icon: <RxDashboard />,
+        },
+      ]
+    : BASE_NAV_LINKS;
+
   return (
     <>
-      {/* ── Desktop links ────────────────────────────────────────────── */}
+      {/* Desktop */}
       <div className="hidden md:flex items-center gap-1 ml-auto">
         {NAV_LINKS.map((link) => (
           <Link
@@ -30,14 +56,11 @@ export default function NavLinks() {
             {link.label}
           </Link>
         ))}
-
         <div className="w-px h-5 bg-white/20 mx-3" />
-
-        {/* Desktop auth actions */}
         <NavActions onSignOut={() => {}} />
       </div>
 
-      {/* ── Mobile hamburger ─────────────────────────────────────────── */}
+      {/* Mobile hamburger */}
       <div className="flex md:hidden items-center gap-3 ml-auto">
         <NavActions mobileAvatarOnly onSignOut={closeDrawer} />
         <button
@@ -49,7 +72,7 @@ export default function NavLinks() {
         </button>
       </div>
 
-      {/* ── Overlay ──────────────────────────────────────────────────── */}
+      {/* Overlay */}
       {drawerOpen && (
         <div
           className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm md:hidden"
@@ -58,16 +81,15 @@ export default function NavLinks() {
         />
       )}
 
-      {/* ── Drawer panel ─────────────────────────────────────────────── */}
+      {/* Drawer */}
       <div
         className={`
-          fixed top-0 right-0 h-full w-[280px] z-50 md:hidden
-          bg-[#1a1a2e] border-l border-white/10
-          transform transition-transform duration-300 ease-in-out
-          ${drawerOpen ? "translate-x-0" : "translate-x-full"}
-        `}
+        fixed top-0 right-0 h-full w-[280px] z-50 md:hidden
+        bg-[#1a1a2e] border-l border-white/10
+        transform transition-transform duration-300 ease-in-out
+        ${drawerOpen ? "translate-x-0" : "translate-x-full"}
+      `}
       >
-        {/* Drawer header */}
         <div className="flex items-center justify-between px-5 h-[70px] border-b border-white/10">
           <span className="text-[15px] font-semibold text-white">Menu</span>
           <button
@@ -79,10 +101,8 @@ export default function NavLinks() {
           </button>
         </div>
 
-        {/* User info inside drawer */}
         <NavActions drawerUserInfo onSignOut={closeDrawer} />
 
-        {/* Nav links */}
         <nav className="flex flex-col px-3 pt-4 gap-1">
           {NAV_LINKS.map((link) => (
             <Link
@@ -97,7 +117,6 @@ export default function NavLinks() {
           ))}
         </nav>
 
-        {/* Drawer auth actions */}
         <div className="absolute bottom-0 left-0 right-0 px-3 pb-6 border-t border-white/10 pt-4">
           <NavActions drawerActions onSignOut={closeDrawer} />
         </div>

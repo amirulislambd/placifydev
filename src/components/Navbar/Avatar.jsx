@@ -1,13 +1,20 @@
 // No "use client" — pure presentational, works in both server & client
 
+import Image from "next/image";
+
 export default function Avatar({ user, size = 36 }) {
   const initials = user?.name
-    ? user.name.split(" ").map((w) => w[0]).join("").slice(0, 2).toUpperCase()
+    ? user.name
+        .split(" ")
+        .map((w) => w[0])
+        .join("")
+        .slice(0, 2)
+        .toUpperCase()
     : "U";
 
   if (user?.image) {
     return (
-      <img
+      <Image
         src={user.image}
         alt={user.name || "User avatar"}
         width={size}
