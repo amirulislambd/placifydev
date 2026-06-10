@@ -2,14 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import {
-  FiBriefcase,
-  FiHome,
-  FiDollarSign,
-  FiMenu,
-  FiX,
-  FiUser,
-} from "react-icons/fi";
+import { FiBriefcase, FiHome, FiDollarSign, FiMenu, FiX } from "react-icons/fi";
 import NavActions from "./Navactions";
 import { useSession } from "@/lib/auth-client";
 import { RxDashboard } from "react-icons/rx";

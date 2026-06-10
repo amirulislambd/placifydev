@@ -123,6 +123,7 @@ export default function ApplyJob({ job, applicant }) {
 
   const step1Valid = phone.trim() && location.trim() && experience;
   const step2Valid = resumeUrl.trim();
+  console.log(job);
 
   const handleSubmit = async () => {
     setError("");
@@ -130,7 +131,9 @@ export default function ApplyJob({ job, applicant }) {
     try {
       const res = await submitApplication({
         companyName: job.companyName,
+        companyLogo: job.companyLogo,
         jobId: job._id,
+        jobTitle: job.jobTitle,
         applicantId: applicant.id,
         phone,
         location,
@@ -140,6 +143,7 @@ export default function ApplyJob({ job, applicant }) {
         noticePeriod,
         resumeUrl,
         coverLetter,
+        status: "applied",
       });
       if (res.insertedId) {
         setSuccess(true);
@@ -180,7 +184,7 @@ export default function ApplyJob({ job, applicant }) {
               Browse Jobs
             </Link>
             <Link
-              href="/dashboard/applications"
+              href="/dashboard/seeker/applications"
               className="flex-1 text-center text-[13px] bg-violet-600 hover:bg-violet-700 text-white font-medium py-2.5 rounded-xl transition-all"
             >
               My Applications
