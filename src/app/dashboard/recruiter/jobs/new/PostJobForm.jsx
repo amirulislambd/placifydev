@@ -502,7 +502,7 @@ export default function PostJobForm( {company} ) {
               </div>
             </div>
             <span
-              className={`${company.status === "active" ? "text-success" : company.status === "pending" ? "text-warning" : "text-danger"} text-xs font-medium`}
+              className={`${company.status === "approved" ? "text-success" : company.status === "pending" ? "text-warning" : "text-danger"} text-xs font-medium`}
             >
               {company.status}
             </span>

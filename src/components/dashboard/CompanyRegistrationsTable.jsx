@@ -9,14 +9,15 @@ export default function CompanyRegistrationsTable({ initialCompanies }) {
   const [companies, setCompanies] = useState(initialCompanies || []);
 
   // Action Handler (Approve / Reject)
+  // Action Handler (Approve / Reject)
   const handleAction = async (id, newStatus) => {
     const previousCompanies = [...companies];
+    const company = companies.find((c) => (c._id?.$oid || c._id) === id);
+    const companyName = company?.companyName || "Company";
 
     setCompanies((prev) =>
-      prev.map((company) =>
-        company._id === id || company._id?.$oid === id
-          ? { ...company, status: newStatus }
-          : company,
+      prev.map((c) =>
+        c._id === id || c._id?.$oid === id ? { ...c, status: newStatus } : c,
       ),
     );
 
@@ -26,18 +27,21 @@ export default function CompanyRegistrationsTable({ initialCompanies }) {
       });
 
       if (updateCompanyStatus?.modifiedCount > 0) {
-        toast.success("Status updated successfully!");
+        toast.success(
+          `${companyName} ${newStatus === "approved" ? "approved" : "rejected"} successfully!`,
+        );
       } else {
-        toast.error("Failed to update status!");
+        toast.error(
+          `Failed to ${newStatus === "approved" ? "approve" : "reject"} ${companyName}!`,
+        );
       }
       console.log(`Company ID: ${id} status updated to: ${newStatus}`);
     } catch (error) {
       console.error("Failed to update status on server:", error);
       setCompanies(previousCompanies);
-      toast.error("Failed to update status!");
+      toast.error(`Failed to update ${companyName} status!`);
     }
   };
-
   return (
     <div className="w-full text-zinc-100 font-sans">
       {/* ----------------------------------------------------
