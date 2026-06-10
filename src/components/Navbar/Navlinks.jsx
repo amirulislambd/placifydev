@@ -16,6 +16,7 @@ const BASE_NAV_LINKS = [
 const DASHBOARD_LINKS = {
   seeker: "/dashboard/seeker",
   recruiter: "/dashboard/recruiter",
+  admin: "/dashboard/admin",
 };
 
 export default function NavLinks() {

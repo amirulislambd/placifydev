@@ -24,7 +24,7 @@ export default function ApplicationsTable({ applications }) {
         ) : (
           applications.map(
             (item) => (
-              console.log(item),
+
               (
                 <div
                   key={item._id}

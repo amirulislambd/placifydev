@@ -3,6 +3,10 @@
 import { serverFetch } from "../core/serverMutation"
 import { getSessionUser } from "../core/session"
 
+export const getCompanies = async () => {
+  return await serverFetch("companies");
+};
+
 export const getRecruiterCompany =async(recruiterId)=>{
     return await serverFetch(`my/companies?recruiterId=${recruiterId}`)
 }

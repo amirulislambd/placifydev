@@ -20,11 +20,7 @@ import { createJob } from "@/lib/action/jobs";
 import { useRouter } from "next/navigation";
 
 export default function PostJobForm( {company} ) {
-  // const mockCompany = {
-  //   name: "Acme Corp",
-  //   id: "comp_12345",
-  //   isApproved: true,
-  // };
+
 
   console.log(company);
   // State configurations
@@ -125,13 +121,53 @@ export default function PostJobForm( {company} ) {
     }
   };
 
-  // if (!mockCompany.isApproved) {
-  //   return (
-  //     <div className="flex justify-center items-center h-screen bg-[#121212] text-zinc-400">
-  //       <p>Your company profile must be approved before you can post a job vacancy.</p>
-  //     </div>
-  //   );
-  // }
+  if (company?.status === "pending") {
+    return (
+      <div className="flex justify-center items-center h-screen bg-[#121212] px-4 font-sans text-center">
+        <div className="max-w-md p-6 bg-[#1c1c1e] border border-zinc-800 rounded-xl shadow-2xl">
+          <div className="w-12 h-12 bg-amber-500/10 text-amber-500 rounded-full flex justify-center items-center mx-auto mb-4 font-bold text-xl">
+            !
+          </div>
+          <h2 className="text-xl font-semibold text-zinc-100 mb-2">
+            Verification Pending
+          </h2>
+          <p className="text-zinc-400 text-sm">
+            Your company profile is currently undergoing review. You will be
+            able to post job vacancies as soon as the admin approves your
+            account.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  if (company?.status === "rejected") {
+    return (
+      <div className="flex justify-center items-center h-screen bg-[#121212] px-4 font-sans text-center">
+        <div className="max-w-md p-6 bg-[#1c1c1e] border border-zinc-800 rounded-xl shadow-2xl">
+          <div className="w-12 h-12 bg-rose-500/10 text-rose-500 rounded-full flex justify-center items-center mx-auto mb-4 font-bold text-xl">
+            ✕
+          </div>
+          <h2 className="text-xl font-semibold text-zinc-100 mb-2">
+            Profile Rejected
+          </h2>
+          <p className="text-zinc-400 text-sm">
+            We regret to inform you that your company profile has been rejected.
+            Please review your company information or contact support for
+            further assistance.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!company || company?.status !== "approved") {
+    return (
+      <div className="flex justify-center items-center h-screen bg-[#121212] text-zinc-400 font-sans">
+        <p>Access denied. Valid approved company profile required.</p>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-[#121212] text-zinc-100 py-12 px-4 flex justify-center items-center font-sans">
@@ -382,8 +418,8 @@ export default function PostJobForm( {company} ) {
                   </span>
                   <Switch
                     isSelected={isRemote}
-                    onValueChange={setIsRemote} // টগল বাটন ও স্বাধীনভাবে কাজ করবে
-                    color="success" // 'success' দিলে অন হলে সুন্দর সবুজ কালার দেখাবে যা ডার্ক মোডে জোস লাগে
+                    onValueChange={setIsRemote}
+                    color="success"
                     size="sm"
                     aria-label="Toggle work environment"
                   />
@@ -465,8 +501,10 @@ export default function PostJobForm( {company} ) {
                 </p>
               </div>
             </div>
-            <span className="text-xs px-2.5 py-1 rounded-md bg-emerald-950/80 text-emerald-400 border border-emerald-900/40 font-medium">
-              Approved
+            <span
+              className={`${company.status === "active" ? "text-success" : company.status === "pending" ? "text-warning" : "text-danger"} text-xs font-medium`}
+            >
+              {company.status}
             </span>
           </div>
 

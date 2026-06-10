@@ -424,7 +424,7 @@ const CompanyProfile = ({ recruiter, recruiterCompany }) => {
 
         setCompany({
           ...payload,
-          _id: company?._id || res.insertedId, // নতুন আইডি ট্র্যাকিং ফিক্স
+          _id: company?._id || res.insertedId,
         });
         setIsEditing(false);
         router.refresh();
