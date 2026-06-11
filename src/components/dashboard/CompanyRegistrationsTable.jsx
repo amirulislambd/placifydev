@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { Table, Button, Avatar } from "@heroui/react";
 import { updateCompany } from "@/lib/action/companies";
 import toast from "react-hot-toast";
+import Link from "next/link";
 
 export default function CompanyRegistrationsTable({ initialCompanies }) {
   const [companies, setCompanies] = useState(initialCompanies || []);
@@ -78,6 +79,9 @@ export default function CompanyRegistrationsTable({ initialCompanies }) {
                   INDUSTRY
                 </Table.Column>
                 <Table.Column className="bg-[#242426] text-zinc-400 font-medium py-3">
+                  JOBS COUNT
+                </Table.Column>
+                <Table.Column className="bg-[#242426] text-zinc-400 font-medium py-3">
                   STATUS
                 </Table.Column>
                 <Table.Column className="bg-[#242426] text-zinc-400 font-medium py-3">
@@ -143,6 +147,12 @@ export default function CompanyRegistrationsTable({ initialCompanies }) {
                       <Table.Cell>
                         <span className="px-2 py-0.5 bg-zinc-800 text-zinc-300 text-xs rounded-md font-mono">
                           {company.industry || "N/A"}
+                        </span>
+                      </Table.Cell>
+
+                      <Table.Cell>
+                        <span className="px-2 py-0.5 bg-zinc-800 text-zinc-300 text-xs rounded-md font-mono">
+                          {company.jobCount || "N/A"}
                         </span>
                       </Table.Cell>
 
@@ -276,14 +286,20 @@ export default function CompanyRegistrationsTable({ initialCompanies }) {
                     <p className="text-xs text-zinc-500 uppercase tracking-wider">
                       Website
                     </p>
-                    <a
+                    <Link
                       href={company.websiteUrl}
                       target="_blank"
                       rel="noreferrer"
                       className="inline-block mt-1 text-sky-400 hover:underline text-sm break-all"
+                      alt={company.websiteUrl}
                     >
                       Visit Website
-                    </a>
+                    </Link>
+                    {company.jobCount > 0 && (
+                      <p className="text-xs text-zinc-500 mt-1">
+                        AVAILABLE JOBS: {company.jobCount}
+                      </p>
+                    )}
                   </div>
                 </div>
 

@@ -43,7 +43,7 @@ function filterJobs(jobs, { q, category, jobType, workMode, salary }) {
 }
 
 export default async function JobsPage({ searchParams }) {
-  // Next.js 15+ এ searchParams async, await করতে হবে
+  
   const params = await searchParams;
 
   const allJobs = await getJobs();
