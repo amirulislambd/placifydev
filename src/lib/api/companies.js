@@ -1,10 +1,10 @@
 "use server"
 
-import { serverFetch } from "../core/serverMutation"
-import { getSessionUser } from "../core/session"
+import { protectedFetch, serverFetch } from "../core/serverMutation";
+import { getSessionUser } from "../core/session";
 
 export const getCompanies = async () => {
-  return await serverFetch("companies");
+  return await protectedFetch("companies");
 };
 
 export const getRecruiterCompany =async(recruiterId)=>{

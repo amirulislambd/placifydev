@@ -1,7 +1,7 @@
-'use server'
+"use server";
 
-import { serverFetch } from "../core/serverMutation"
+import { protectedFetch } from "../core/serverMutation";
 
-export const getApplicationsByaApplicant=async(applicantId)=>{
-    return serverFetch(`applications?applicantId=${applicantId}`)
-}
+export const getApplicationsByaApplicant = async (applicantId) => {
+  return protectedFetch(`applications?applicantId=${applicantId}`);
+};
