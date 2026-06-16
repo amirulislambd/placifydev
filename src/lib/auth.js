@@ -28,8 +28,14 @@ export const auth = betterAuth({
 
   user: {
     additionalFields: {
-      role: { default: "seeker" },
-      plan: { default: "seeker_free" },
+      role: {
+        type: "string",
+        default: "seeker",
+      },
+      plan: {
+        type: "string",
+        default: "seeker_free",
+      },
     },
   },
   plugins: [admin()],

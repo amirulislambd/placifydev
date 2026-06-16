@@ -9,7 +9,7 @@ const SeekerPage = async () => {
   });
 
   const user = session?.user;
-
+console.log(user);
   const stats = await getDashboardStats();
 
   return (

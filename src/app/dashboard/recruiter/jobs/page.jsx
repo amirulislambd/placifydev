@@ -20,7 +20,9 @@ const RecruiterJobs = async () => {
   const company = await getLoggedInRecruiterCompany();
   const user = await getSessionUser();
   console.log("company", company);
-  const jobs = await getCompanyJobs(company._id);
+  const { jobs } = await getCompanyJobs(company._id);
+
+  console.log("jobs", jobs);
 
   return (
     <div className="p-4 md:p-6 bg-[#121212] min-h-screen text-zinc-100">
