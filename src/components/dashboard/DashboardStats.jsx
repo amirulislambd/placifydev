@@ -14,9 +14,9 @@ const STATS_MAP = {
     seeker:    getSeekerStats,
 };
 
-export default function DashboardStats({ role = "seeker" }) {
+export default function DashboardStats({ role = "seeker", data = {} }) {
   const getStats = STATS_MAP[role] ?? STATS_MAP.seeker;
-  const stats = getStats();
+  const stats = getStats(data);
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 w-full ">

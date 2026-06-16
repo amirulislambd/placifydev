@@ -2,8 +2,20 @@ import { serverFetch } from "../core/serverMutation";
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
-export const getJobs = async () => {
-  return await serverFetch("jobs");
+export const getJobs = async (params = {}) => {
+  const query = new URLSearchParams();
+  if (params.q) query.set("q", params.q);
+  if (params.category) query.set("category", params.category);
+  if (params.jobType) query.set("jobType", params.jobType);
+  if (params.workMode) query.set("workMode", params.workMode);
+  if (params.salary) query.set("salary", params.salary);
+  if (params.page) query.set("page", params.page);
+  if (params.limit) query.set("limit", params.limit);
+  return await serverFetch(`jobs?${query.toString()}`);
+};
+
+export const getFeaturedJobs = async () => {
+  return await serverFetch("featured-jobs");
 };
 
 export const getJobById = async (id) => {

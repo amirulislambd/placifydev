@@ -5,33 +5,33 @@ import {
 } from "react-icons/fi";
 import CardIcon from "./CardIcon";
 
-export const getRecruiterStats = () => [
+export const getRecruiterStats = (data = {}) => [
   {
     icon: <CardIcon icon={FiFileText} color="blue" />,
     label: "Total Job Posts",
-    value: "48",
-    sub: "↑ 6 this month",
+    value: (data.totalJobs ?? 0).toLocaleString(),
+    sub: "Posted by your company",
     subType: "up",
   },
   {
     icon: <CardIcon icon={FiUsers} color="violet" />,
     label: "Total Applicants",
-    value: "1,284",
-    sub: "↑ 132 this week",
+    value: (data.totalApplicants ?? 0).toLocaleString(),
+    sub: "Applications submitted",
     subType: "up",
   },
   {
     icon: <CardIcon icon={FiZap} color="green" />,
     label: "Active Jobs",
-    value: "18",
+    value: (data.activeJobs ?? 0).toLocaleString(),
     sub: "Currently live",
     subType: "neutral",
   },
   {
     icon: <CardIcon icon={FiSlash} color="orange" />,
     label: "Jobs Closed",
-    value: "32",
-    sub: "↓ 3 this month",
+    value: (data.closedJobs ?? 0).toLocaleString(),
+    sub: "Closed job posts",
     subType: "down",
   },
 ];

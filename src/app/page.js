@@ -1,5 +1,6 @@
-import HeroSection from "@/components/hero/HeroSection";
-import StatsSection from "@/components/hero/Statssection";
+import FeaturedJobsSection from "@/components/Home/FeaturedJobs";
+import HeroSection from "@/components/Home/HeroSection";
+import StatsSection from "@/components/Home/Statssection";
 
 export default function Home() {
   return (
@@ -11,6 +12,7 @@ export default function Home() {
       <div className="relative z-0">
         <HeroSection />
         <StatsSection />
+        <FeaturedJobsSection />
       </div>
       <main></main>
     </div>

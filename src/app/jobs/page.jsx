@@ -1,67 +1,38 @@
-// app/jobs/page.jsx — Server Component
 import { Suspense } from "react";
+import Link from "next/link";
 import JobCard from "@/components/jobs/Jobcard";
 import { getJobs } from "@/lib/api/getJobs";
 import JobsFilter from "@/components/jobs/Jobsfilter";
+import { Pagination } from "@heroui/react";
 
-function filterJobs(jobs, { q, category, jobType, workMode, salary }) {
-  return jobs.filter((job) => {
-    // ── Search query ───────────────────────────────────────────────────────
-    if (q) {
-      const query = q.toLowerCase();
-      const match =
-        job.jobTitle?.toLowerCase().includes(query) ||
-        job.companyName?.toLowerCase().includes(query) ||
-        job.category?.toLowerCase().includes(query) ||
-        job.location?.toLowerCase().includes(query);
-      if (!match) return false;
-    }
-
-    // ── Category ───────────────────────────────────────────────────────────
-    if (category && category !== "All") {
-      if (job.category?.toLowerCase() !== category.toLowerCase()) return false;
-    }
-
-    // ── Job Type ───────────────────────────────────────────────────────────
-    if (jobType && jobType !== "All") {
-      if (job.jobType?.toLowerCase() !== jobType.toLowerCase()) return false;
-    }
-
-    if (workMode && workMode !== "All") {
-      if (job.workMode?.toLowerCase() !== workMode.toLowerCase()) return false;
-    }
-
-    if (salary) {
-      const [min, max] = salary.split("-").map(Number);
-      const jobMin = Number(job.minSalary) || 0;
-      const jobMax = Number(job.maxSalary) || 0;
-      if (jobMin < min || jobMax > max) return false;
-    }
-
-    return true;
-  });
-}
+const PAGE_SIZE = 9;
 
 export default async function JobsPage({ searchParams }) {
-  
   const params = await searchParams;
-
-  const allJobs = await getJobs();
+  const page = Number(params?.page) || 1;
 
   const filters = {
-    q:        params?.q        || "",
+    q: params?.q || "",
     category: params?.category || "",
-    jobType:  params?.jobType  || "",
+    jobType: params?.jobType || "",
     workMode: params?.workMode || "",
-    salary:   params?.salary   || "",
+    salary: params?.salary || "",
+    page,
+    limit: PAGE_SIZE,
   };
 
-  const filteredJobs = filterJobs(allJobs, filters);
+  const { jobs: filteredJobs, total } = await getJobs(filters);
+  const totalPages = Math.ceil(total / PAGE_SIZE);
+
+  const buildPageUrl = (p) => {
+    const sp = new URLSearchParams(params);
+    sp.set("page", p);
+    return `/jobs?${sp.toString()}`;
+  };
 
   return (
     <section className="bg-[#0d0d14] min-h-screen px-4 sm:px-6 py-12">
       <div className="max-w-screen-xl mx-auto">
-
         <div className="mb-8">
           <h1 className="text-[28px] sm:text-[34px] font-bold text-white tracking-tight mb-2">
             Browse Jobs
@@ -72,7 +43,7 @@ export default async function JobsPage({ searchParams }) {
         </div>
 
         <Suspense fallback={null}>
-          <JobsFilter totalJobs={filteredJobs.length} />
+          <JobsFilter totalJobs={total} />
         </Suspense>
 
         {filteredJobs.length === 0 ? (
@@ -85,13 +56,76 @@ export default async function JobsPage({ searchParams }) {
             </p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {filteredJobs.map((job, i) => (
-              <JobCard key={`${job._id}-${i}`} job={job} />
-            ))}
-          </div>
-        )}
+          <>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {filteredJobs.map((job, i) => (
+                <JobCard key={`${job._id}-${i}`} job={job} />
+              ))}
+            </div>
 
+            {/* Pagination */}
+            {totalPages > 1 && (
+              <div className="mt-10 flex items-center justify-center gap-2">
+                {/* Previous */}
+                <Link
+                  href={buildPageUrl(page - 1)}
+                  className={`px-3 py-1.5 rounded-lg text-[13px] border border-white/10 text-white/50 hover:text-white hover:border-white/20 transition-all ${page <= 1 ? "pointer-events-none opacity-30" : ""}`}
+                >
+                  ← Prev
+                </Link>
+
+                {/* Page numbers */}
+                {Array.from({ length: totalPages }, (_, i) => i + 1)
+                  .filter(
+                    (p) =>
+                      p === 1 || p === totalPages || Math.abs(p - page) <= 1,
+                  )
+                  .reduce((acc, p, idx, arr) => {
+                    if (idx > 0 && p - arr[idx - 1] > 1) acc.push("ellipsis");
+                    acc.push(p);
+                    return acc;
+                  }, [])
+                  .map((p, i) =>
+                    p === "ellipsis" ? (
+                      <span
+                        key={`e-${i}`}
+                        className="text-white/30 text-[13px]"
+                      >
+                        …
+                      </span>
+                    ) : (
+                      <Link
+                        key={p}
+                        href={buildPageUrl(p)}
+                        className={`w-8 h-8 flex items-center justify-center rounded-lg text-[13px] font-medium transition-all
+              ${
+                p === page
+                  ? "bg-violet-600 text-white"
+                  : "text-white/50 hover:text-white hover:bg-white/5 border border-white/10"
+              }`}
+                      >
+                        {p}
+                      </Link>
+                    ),
+                  )}
+
+                {/* Next */}
+                <Link
+                  href={buildPageUrl(page + 1)}
+                  className={`px-3 py-1.5 rounded-lg text-[13px] border border-white/10 text-white/50 hover:text-white hover:border-white/20 transition-all ${page >= totalPages ? "pointer-events-none opacity-30" : ""}`}
+                >
+                  Next →
+                </Link>
+
+                {/* Summary */}
+                <span className="ml-4 text-[12px] text-white/30">
+                  {(page - 1) * PAGE_SIZE + 1}–
+                  {Math.min(page * PAGE_SIZE, total)} of {total}
+                </span>
+              </div>
+            )}
+          </>
+        )}
       </div>
     </section>
   );
