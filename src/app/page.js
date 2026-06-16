@@ -1,20 +1,27 @@
 import FeaturedJobsSection from "@/components/Home/FeaturedJobs";
+import FeaturesSection from "@/components/Home/FeaturesSection";
+import HeroBottom from "@/components/Home/HeroBottom";
 import HeroSection from "@/components/Home/HeroSection";
+import PricingSection from "@/components/Home/PricingSection";
 import StatsSection from "@/components/Home/Statssection";
+
 
 export default function Home() {
   return (
-    <div className="relative ">
-      <div
-        className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat "
+    <>
+      <header
+        className=" inset-0 z-0 bg-cover bg-center bg-no-repeat "
         style={{ backgroundImage: "url('/images/globe.png')" }}
-      />
-      <div className="relative z-0">
+      >
         <HeroSection />
         <StatsSection />
+      </header>
+      <main>
         <FeaturedJobsSection />
-      </div>
-      <main></main>
-    </div>
+        <FeaturesSection />
+        <PricingSection />
+        <HeroBottom />
+      </main>
+    </>
   );
 }

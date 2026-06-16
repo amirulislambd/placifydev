@@ -4,7 +4,6 @@ import Link from "next/link";
 
 export default async function FeaturedJobsSection() {
 const jobs = await getFeaturedJobs();
-console.log(jobs);
   return (
     <section className="bg-[#0d0d14] py-20 px-4 sm:px-6">
       <div className="max-w-6xl mx-auto flex flex-col gap-12">
