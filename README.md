@@ -72,5 +72,5 @@ Follow these steps to run the project locally:
 
 ### 1. Clone the repository
 ```bash
-git clone [https://github.com/YOUR_USERNAME/hireloop.git](https://github.com/YOUR_USERNAME/hireloop.git)
-cd playcifydev
+git clone [https://github.com/YOUR_USERNAME/hireloop.git](https://github.com/amirulislambd/placifydev.git)
+cd placifydev

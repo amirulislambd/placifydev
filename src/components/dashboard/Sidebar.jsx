@@ -120,7 +120,7 @@ const Sidebar = () => {
       {/* mobile sidebar */}
       <Drawer isOpen={isDrawerOpen} onOpenChange={setIsDrawerOpen}>
         <Button
-          className={"lg:hidden"}
+          className={"lg:hidden absolute top-14 left-4 z-50"}
           variant="secondary"
           onClick={() => setIsDrawerOpen(true)}
         >

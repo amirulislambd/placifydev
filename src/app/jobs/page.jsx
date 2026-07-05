@@ -3,7 +3,6 @@ import Link from "next/link";
 import JobCard from "@/components/jobs/Jobcard";
 import { getJobs } from "@/lib/api/getJobs";
 import JobsFilter from "@/components/jobs/Jobsfilter";
-import { Pagination } from "@heroui/react";
 
 const PAGE_SIZE = 9;
 

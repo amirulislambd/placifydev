@@ -14,7 +14,7 @@ const RecruiterPage = async () => {
 
   return (
     <div className="p-6 flex flex-col gap-6">
-      <h1 className="text-lg md:text-2xl font-bold text-white">
+      <h1 className="text-lg md:text-2xl font-bold text-white text-center">
         Welcome, {user?.name} 👋
       </h1>
 
