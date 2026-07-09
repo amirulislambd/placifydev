@@ -66,6 +66,14 @@ Playcifydev is a full-featured job hunting portal that bridges the gap between j
 
 ---
 
+## 👑 Demo Credentials
+
+| Role | Email | Password |
+|---|---|---|
+| **Admin** | admin@super.com | Password123 |
+
+> You can register a new account and test as a **User**. Apply for Trainer from the dashboard to test the Trainer flow.
+
 ## ⚙️ Installation & Setup
 
 Follow these steps to run the project locally:
